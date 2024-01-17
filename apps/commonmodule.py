@@ -45,7 +45,7 @@ navigationpanel = html.Nav(
             ],className="module-div"),
         html.Div([
             html.H4("Reports", style=navbar_style),
-            html.A("Generate Report", href="/generate-report",id='tracks', style=navbar_style),
+            html.A("Generate Reports", href="/generate-report",id='tracks', style=navbar_style),
             ],className="module-div"),
     ],
 className="nav", style={"padding":"0px 15px"})
