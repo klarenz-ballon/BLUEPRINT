@@ -337,3 +337,6 @@ input[type="checkbox"]:checked ~ .modal-background {
 .red{
     background-color: #c50000;
 }
+.otherside{
+   justify-content: space-between;
+}
