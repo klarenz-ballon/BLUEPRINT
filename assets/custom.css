@@ -1,0 +1,339 @@
+.flex{
+    display:flex;
+}
+/*This is for the navbar and all components under it*/
+.nav{
+    flex:20;
+    overflow: auto;
+}
+
+.module-div{
+    display:flex;
+    flex-direction: column;
+}
+.nav .module-div a{    
+    background: #e6e6e6;;
+    border-bottom: 1px solid #CCC;
+    color: #444;
+    display: block;
+    padding: 7px 15px;
+    text-decoration: none;
+}
+.nav .module-div a:hover{    
+    background: #3f66bd;
+    color:white;
+}
+.nav .module-div h4{
+    border-bottom: 1px solid #444;
+    color: #273250;
+    font-size: 100%;
+    margin: 5px 0 0;
+    padding: 5px 0;
+}
+.nav .module-div .disabled-a{
+    pointer-events: none;  
+    background: #3f66bd;
+    color:white;
+
+}
+
+/*This is for the body part div and all components under it*/
+.body{
+    flex:80;
+    padding: 1%;
+    overflow-y: auto;
+}
+/*this is for the top bar, image, links logos etc*/
+.topbar{
+    width: 100vw;
+    height: 10vh;
+    position:absolute;
+    top:0;
+    background-color: #3f66bd;
+    color:white
+}
+.topbar a{
+    
+    display: block;
+    padding: 7px 15px;
+    text-decoration: none;
+    color: white
+}
+.logo{
+    height: 9vh;
+}
+/*This is for the general CSS*/
+html,body{
+    padding: 0;
+    margin:0;
+    background-color: #e6e6e6;
+}
+.container{
+    position: absolute;
+    top:10vh;
+    height: 90vh;
+    width: 100vw;
+    overflow: hidden;
+}
+.center{
+    align-items: center;
+}
+div#page-content{
+    margin: 0;
+    padding:0;
+}
+/*this is for the body*/
+.searchbar{
+    width:40%;
+    margin-left:0.5em ;
+    height:2em;
+}
+.search{
+    align-items: center;
+    justify-content: space-between;
+}
+.dropdown{
+    width:10vw;
+    padding:0;
+    margin:0;
+}
+.FullScreen{
+    width: 100dvw;
+    height: 100dvh;
+    background-color: #3f66bd;
+    display: grid;
+  place-items: center;
+}
+.half{
+    flex:1;
+    align-items: center;
+}
+.login-module{
+    display:flex;
+    width: 45vw;
+    aspect-ratio: 16/9;
+    background-color: #eef2fa;
+    position: absolute;
+}
+.left{
+    border-right: 1px solid black;
+}
+.input{
+    width: 80%;
+    margin-left: 10%;
+    height: 3em;
+    margin-bottom: 10%;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid #596482;
+    color: #07315B;
+    background-color: #f1f6ff;
+}
+.error{
+    color:red;
+}
+.loginbutton{
+    width: 80%;
+    margin-left: 10%;
+}
+.choice{
+    min-width: 100px;
+    background-color: #3f66bd;
+    color:#e6e6e6;
+    border: 0;
+    border-radius: 2em;
+    width: 10dvw;
+    margin: 2em;
+    padding: 2em;
+}
+.choice:hover{
+    background-color: #4d7bdf;
+}
+/*for modal*/
+
+input[type="checkbox"]:checked ~ .modal,
+input[type="checkbox"]:checked ~ .modal-background {
+	display: block;
+}
+.hidden{
+    display:none;
+}
+.shown{
+    display: block;
+}
+.modal-background {
+	width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9998;
+}
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;	
+    width: 300px;
+    height: 300px;
+    background-color: #fff;
+    box-sizing: border-box;
+    z-index: 9999;
+}
+.modal > p {
+	padding: 15px;
+    margin: 0;
+}
+.modal-header {
+	background-color: #3f66bd;
+    border-bottom: 1px solid #dddddd;
+    color:#fff;
+    box-sizing: border-box;
+    height: 50px;
+}
+.modal-header h3 {
+	margin: 0;
+    box-sizing: border-box;
+    padding-left: 15px;
+    line-height: 50px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bolder;
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.modal-header label {
+	box-sizing: border-box;
+    border-left: 1px solid #dddddd;
+    float: right;
+    line-height: 50px;
+    padding: 0 15px 0 15px;
+    cursor: pointer;
+}
+.modal-header label:hover img {
+	opacity: 0.6;
+}
+/* below is optional, it is just an example for the blue button */
+.example-label {
+	box-sizing: border-box;
+    display: inline-block;
+    padding: 10px;
+    background-color: #375d91;
+    color: #f9f9f9;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.example-label:hover {
+	background-color: #3c669f;
+}
+.enter{
+    width:80%;
+    min-width: 100px;
+    background-color: #3f66bd;
+    color:#e6e6e6;
+    border: 0;
+    height: 20%;
+    position: absolute;
+    bottom: 10%;
+    left: 10%;
+    margin: auto;
+}
+.enter:hover{
+    background-color: #4d7bdf;
+}
+.lbtn{
+    background-color: #e15789;
+    border: 0;
+    color: #eef2fa;
+    border-radius: 1em;
+    align-self: center;
+    width: 80%;
+    padding: 1em 0 1em 0;
+    margin-left: 10%;
+}
+.lbtn:hover{
+    background-color: #f87aab;
+}
+
+.edit, .add{
+    align-items: center;
+    height: 4em;
+}
+.edit h3,.address h3{
+    font-weight:normal;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:medium;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+.address{
+    width: 100%;
+}
+.address .dash-input{
+    width:80%;
+    height: 4dvh;
+    margin: 2em;
+}
+.edit>.dash-input{
+    height:4dvh;
+    width:13dvw;
+}
+.name>.dash-input:last-child{
+    height:4dvh;
+    width:3dvw;
+}
+.last{
+    width: 100%;
+    justify-content: flex-end;
+}
+.last button{
+    height: 5dvh;
+    padding:  2em 2em 3em 2em;
+    background-color: #3f66bd;
+    color: #eef2fa;
+    border: 0;
+}
+.last button:hover{
+    background-color: #4d7bdf;
+}
+.add{
+    justify-content: space-between;
+}
+.name>.dash-input,.others>.dash-input,.address>.dash-input,.add >.dash-input{
+    font-size: 1em;
+
+}
+.row{
+    flex-direction: column;
+    width: 20%;
+}
+.red-modal{
+    background-color: #c50000;
+    border-bottom: 1px solid #dddddd;
+    color:#fff;
+    box-sizing: border-box;
+    height: 50px;
+}
+.red-btn{
+    background-color:#c50000;
+    color:#e6e6e6;
+    width:80%;
+    min-width: 100px;
+    border: 0;
+    height: 20%;
+    position: absolute;
+    bottom: 10%;
+    left: 10%;
+    margin: auto;
+}
+.red-btn:hover{
+    background-color:#fa5555;
+}
+.red{
+    background-color: #c50000;
+}
