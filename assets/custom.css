@@ -138,14 +138,15 @@ div#page-content{
     margin-left: 10%;
 }
 .choice{
-    min-width: 100px;
+    min-width: 150px;
     background-color: #3f66bd;
     color:#e6e6e6;
     border: 0;
-    border-radius: 2em;
+    border-radius: 3em;
     width: 10dvw;
     margin: 2em;
-    padding: 2em;
+    padding: 1em;
+    font-size: 0.9em;
 }
 .choice:hover{
     background-color: #4d7bdf;
@@ -267,7 +268,7 @@ input[type="checkbox"]:checked ~ .modal-background {
 .edit h3,.address h3{
     font-weight:normal;
     font-family: Arial, Helvetica, sans-serif;
-    font-size:medium;
+    font-size:0.8em;
     padding-left: 1em;
     padding-right: 1em;
 }
@@ -337,3 +338,15 @@ input[type="checkbox"]:checked ~ .modal-background {
 .red{
     background-color: #c50000;
 }
+.otherside{
+    justify-content: space-between;
+ }
+ .section{
+     width: 80%;
+     margin-left: 10%;
+     margin-bottom: 5%;
+     background-color: #eef2fa;
+     padding: 1em 3em 2em 3em;
+     border-radius: 2%;
+     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+ }
