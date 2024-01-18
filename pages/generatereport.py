@@ -121,7 +121,7 @@ def generate_rep(pathname):
     if pathname=="/generate-report":
         #for reaff table
         sql="""
-            SELECT (first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name, membership_type, degree_program
+            SELECT CONCAT(first_name, ' ',middle_name,' ' ,last_name, ' ', suffix) as full_name, membership_type, degree_program
             from 
             upciem_member join affiliation 
             on upciem_member.affiliation_id=affiliation.affiliation_id 
@@ -152,7 +152,7 @@ def generate_rep(pathname):
         reafcount="Current Count:"+str(df.shape[0])
         #for new table
         sql="""
-            SELECT (first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name, membership_type, degree_program
+            SELECT CONCAT(first_name, ' ',middle_name,' ' ,last_name, ' ', suffix) as full_name, membership_type, degree_program
             from 
             upciem_member join affiliation 
             on upciem_member.affiliation_id=affiliation.affiliation_id 
@@ -183,7 +183,7 @@ def generate_rep(pathname):
         newcount="Current Count:"+str(df.shape[0])
         #for the active table
         sql="""
-            SELECT (first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name, membership_type, degree_program
+            SELECT CONCAT(first_name, ' ',middle_name,' ' ,last_name, ' ', suffix) as full_name, membership_type, degree_program
             from 
             upciem_member join affiliation 
             on upciem_member.affiliation_id=affiliation.affiliation_id 
@@ -214,7 +214,7 @@ def generate_rep(pathname):
         actcount="Current Count:"+str(df.shape[0])
         #for inactive table
         sql="""
-            SELECT (first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name, membership_type, degree_program
+            SELECT CONCAT(first_name, ' ',middle_name,' ' ,last_name, ' ', suffix) as full_name, membership_type, degree_program
             from 
             upciem_member join affiliation 
             on upciem_member.affiliation_id=affiliation.affiliation_id 
@@ -244,7 +244,7 @@ def generate_rep(pathname):
         style_table={"height":"80%",'overflow':'hidden',})
         inactcount="Current Count:"+str(df.shape[0])
         #for alumni table
-        sql="SELECT (first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name from person join alumni on person.valid_id=alumni.valid_id WHERE True"
+        sql="SELECT CONCAT(first_name, ' ',middle_name,' ' ,last_name, ' ', suffix) as full_name from person join alumni on person.valid_id=alumni.valid_id WHERE True"
         values=[]
         cols=['Full Name']
         df=db.querydatafromdatabase(sql,values,cols)
@@ -268,7 +268,7 @@ def generate_rep(pathname):
         style_table={"height":"80%",'overflow':'hidden',})
         alumcount="Current Count:"+str(df.shape[0])
         #for year standing
-        sql="SELECT DISTINCT year_standing FROM affiliation WHERE True"
+        sql="SELECT DISTINCT year_standing FROM affiliation WHERE year_standing IS NOT NULL"
         values=[]
         cols=['ys']
         df=db.querydatafromdatabase(sql,values,cols)
@@ -277,7 +277,7 @@ def generate_rep(pathname):
             yearstring="YEAR "+str(year)
             yeartab+=[html.H4(yearstring)]
             sql="""
-            SELECT (first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name, membership_type, degree_program
+            SELECT CONCAT(first_name, ' ',middle_name,' ' ,last_name, ' ', suffix) as full_name, membership_type, degree_program
             from 
             upciem_member join affiliation 
             on upciem_member.affiliation_id=affiliation.affiliation_id 
@@ -307,7 +307,7 @@ def generate_rep(pathname):
             style_table={"height":"80%",'overflow':'hidden',})
             yeartab+=[temp_year]
         #for app-batch
-        sql="SELECT DISTINCT app_batch FROM affiliation WHERE True"
+        sql="SELECT DISTINCT app_batch FROM affiliation WHERE app_batch IS NOT NULL"
         values=[]
         cols=['ab']
         df=db.querydatafromdatabase(sql,values,cols)
@@ -316,7 +316,7 @@ def generate_rep(pathname):
             batchstr="Batch"+str(batch)
             batchtab+=[html.H4(batchstr)]
             sql="""
-            SELECT (first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name, membership_type, degree_program
+            SELECT CONCAT(first_name, ' ',middle_name,' ' ,last_name, ' ', suffix) as full_name, membership_type, degree_program
             from 
             upciem_member join affiliation 
             on upciem_member.affiliation_id=affiliation.affiliation_id 
@@ -348,7 +348,7 @@ def generate_rep(pathname):
             batchtab+=[temp_batch]
         #for 14 whites
         sql="""
-            SELECT (first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name, membership_type, degree_program,gwa::numeric(10,2)
+            SELECT CONCAT(first_name, ' ',middle_name,' ' ,last_name, ' ', suffix) as full_name, membership_type, degree_program,gwa::numeric(10,2)
             from 
             upciem_member join affiliation 
             on upciem_member.affiliation_id=affiliation.affiliation_id 
@@ -378,7 +378,7 @@ def generate_rep(pathname):
         style_table={"height":"80%",'overflow':'hidden',})
         #for top 14
         sql="""
-            SELECT (first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name, membership_type, degree_program,gwa::numeric(10,2)
+            SELECT CONCAT(first_name, ' ',middle_name,' ' ,last_name, ' ', suffix) as full_name, membership_type, degree_program,gwa::numeric(10,2)
             from 
             upciem_member join affiliation 
             on upciem_member.affiliation_id=affiliation.affiliation_id 

@@ -60,11 +60,11 @@ Input('filtersearch','value'),
 def members(pathname,namesearch,filterdd,filtersearch):
     if pathname=="/members":
         sql="""	SELECT CONCAT(first_name, ' ',middle_name,' ' ,last_name, ' ', suffix) as full_name,birthdate,membership_type,app_batch,year_standing,degree_program,other_org_affiliation,email,present_address
-FROM 
-person JOIN upciem_member 
-ON person.valid_id=upciem_member.valid_id JOIN affiliation 
-ON person.valid_id=affiliation.valid_id 
-WHERE True
+            FROM 
+            person JOIN upciem_member 
+            ON person.valid_id=upciem_member.valid_id JOIN affiliation 
+            ON person.valid_id=affiliation.valid_id 
+            WHERE True
             """
         values=[]
         cols=["Name","Birthday","Membership","App Batch","Year Standing","Degree Program","Other Orgs","Email","Present Address"]

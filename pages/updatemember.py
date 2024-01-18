@@ -38,19 +38,20 @@ Input('uns','value'),
 )
 def members(pathname,namesearch):
     if pathname=="/update-member":
-        sql="""
-        SELECT member_id,(first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name,membership_type
-        from PERSON join upciem_member 
-        ON person.valid_id=upciem_member.valid_id
-        WHERE True
+        sql="""	SELECT CONCAT(first_name, ' ',middle_name,' ' ,last_name, ' ', suffix) as full_name,membership_type
+            FROM 
+            person JOIN upciem_member 
+            ON person.valid_id=upciem_member.valid_id JOIN affiliation 
+            ON person.valid_id=affiliation.valid_id 
+            WHERE True
             """
         values=[]
-        cols=["Member ID","Name","Membership Type"]
+        cols=["Name","Membership Type"]
         if namesearch:
-            sql+="""AND (first_name||' '||middle_name||' '||last_name||' '||suffix) ILIKE %s"""
+            sql+="""AND CONCAT(first_name, ' ',middle_name,' ' ,last_name, ' ', suffix) ILIKE %s"""
             values+={f"%{namesearch}%"}
         df = db.querydatafromdatabase(sql, values, cols)
-        df['Action'] = [f'<a href="/update-member-modify?mode=edit&id={id}" ><Button class="lbtn">Edit</Button></a>' for id in df['Member ID']]
+        df['Action'] = [f'<a href="/update-member-modify?mode=edit&id={id}" ><Button class="lbtn">Edit</Button></a>' for id in df['Name']]
         table=dash_table.DataTable(
         data=df.to_dict('records'),  # Convert DataFrame to list of dictionaries
         columns=[{'name': i, 'id': i, 'presentation': 'markdown'} if i == 'Action' else {'name': i, 'id': i} for i in df.columns],  # Specify column names and IDs
