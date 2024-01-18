@@ -76,13 +76,14 @@ layout=html.Div([
 ]
 )
 def populate_info(pathname, data):
-    if pathname=="/edit-profile":
+    if pathname=="/reaffiliate":
         id=data['acc']
         sql="""
-SELECT first_name,middle_name,last_name,suffix,birthdate,contact_number,emergency_contact_number,email,valid_id,present_address,permanent_address 
-from person where account_id=
+first_name,middle_name,last_name,suffix,birthdate,contact_number,emergency_contact_number,
+email,valid_id,present_address,permanent_address 
+from person where True
 """
-        sql+=id
+        #sql+=id
         values=[]
         cols=['fname','mname','lname','sfx','bday','cn','ecn','em','vid','pradd','peadd']
         df = db.querydatafromdatabase(sql, values, cols)

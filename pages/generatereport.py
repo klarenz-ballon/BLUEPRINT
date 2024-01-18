@@ -14,7 +14,7 @@ layout=html.Div([
         [
             cm.navigationpanel,
             html.Div([
-    html.H1("Reports"),
+    html.H2("Reports for AY 2022-2023", style={"font-family": "Arial", "color": "#273250"}),
     html.Div(
         [
             html.H2("Tracking List: Members"),
