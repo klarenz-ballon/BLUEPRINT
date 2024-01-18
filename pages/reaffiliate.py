@@ -99,6 +99,10 @@ def reaff_member(btn,fname,mname,lname,sfx,bday,cn,ecn,email,vid,presadd,permadd
             """
             values=[fname,mname,lname,sfx,bday,cn,ecn,email,presadd,permadd,vid]
             db.modifydatabase(sql,values)
+            #update is_new to false
+            sql="UPDATE affiliation SET is_new=False WHERE valid_id=%s"
+            values=[vid]
+            db.modifydatabase(sql,values)
             return 'shown modal', 'shown modal-background',dash.no_update
         else:  #there is no existing data
             #add new person sincec foreign key first
