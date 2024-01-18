@@ -15,7 +15,7 @@ layout=html.Div(
     html.Label(className='hidden modal-background',id='modal-background'),
     html.Div([
         html.Div(
-            [html.H3("Action Done")],className='modal-header'
+            [html.H3("Action Done",style={"font-family": "Arial"})],className='modal-header'
         ),
         html.P("Said Action is Made",id='up-mem-done'),
         html.A([html.Button("Back to List",className='enter')],href='/update-member')
@@ -32,8 +32,9 @@ layout=html.Div(
             id='namesearch'
         )],className='flex half'),
         html.Div([
-        html.H5("Filter by:"),
-        dcc.Dropdown(['Member Type','Year Standing','App Batch','Accountabilities'], id='filterdd',searchable=False,className='dropdown'),
+        html.H5("Filter by:",style={"font-family": "Arial"
+        }),
+        dcc.Dropdown(['Member Type','Year Standing','App Batch','Accountabilities'], id='filterdd',searchable=False,className='dropdown', style={"font-family": "Arial","font-size":"small"}),
         dcc.Input(
             type='text',
             className='searchbar',

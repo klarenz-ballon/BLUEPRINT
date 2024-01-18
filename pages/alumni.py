@@ -9,16 +9,19 @@ layout=html.Div([
     html.Div([
         cm.navigationpanel,
     html.Div([
-    html.H2("Alumni"),
+    html.H2("Alumni",style={"font-family": "Arial", "color": "#273250",
+        }),
     html.Div([
-        html.Div([html.H5("Search Name"),
+        html.Div([html.H5("Search Name",style={"font-family": "Arial"
+        }),
         dcc.Input(
             type='text',
             className='searchbar',
             id='alname'
         )],className='flex half'),
         html.Div([
-        html.H5("Filter by Specialization:"),
+        html.H5("Filter by Specialization:",style={"font-family": "Arial"
+        }),
         dcc.Input(
             type='text',
             className='searchbar',
@@ -46,7 +49,7 @@ Input('specsearch','value'),
 def members(pathname,namesearch,filtersearch):
     if pathname=="/alumni":
         sql="""
-        SELECT alumni_id,(first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name, specialization, birthdate, contact_number,email,present_address
+        SELECT CONCAT(first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name, specialization, birthdate, contact_number,email,present_address
         FROM alumni JOIN person
         ON alumni.valid_id=person.valid_id
         WHERE True
@@ -55,7 +58,7 @@ def members(pathname,namesearch,filtersearch):
         cols=["Alumni ID","Name","Specialization","Birthday","Contact Number","Email","Present Address"]
 
         if namesearch:
-            sql+="""AND (first_name||' '||middle_name||' '||last_name||' '||suffix) ILIKE %s"""
+            sql+="""AND CONCAT(first_name||' '||middle_name||' '||last_name||' '||suffix) ILIKE %s"""
             values+={f"%{namesearch}%"}
         if filtersearch:
             sql+="AND specialization ILIKE %s"
@@ -83,6 +86,7 @@ def members(pathname,namesearch,filtersearch):
             )
             return [table]
         else:
-            return[(html.H2("No Alumni to Display"))]
+            return[(html.H2("No Alumni to Display", style={"font-family": "Arial", "color": "#273250",
+        }))]
     else:
         raise PreventUpdate
