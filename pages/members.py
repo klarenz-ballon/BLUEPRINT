@@ -21,9 +21,11 @@ layout=html.Div(
         html.A([html.Button("Back to List",className='enter')],href='/update-member')
     ],className='hidden modal',id='main-modal')
 ]),
-    html.H2("Members"),
+    html.H2("Members",style={"font-family": "Arial", "color": "#273250",
+        }),
     html.Div([
-        html.Div([html.H5("Search Name"),
+        html.Div([html.H5("Search Name", style={"font-family": "Arial"
+        }),
         dcc.Input(
             type='text',
             className='searchbar',

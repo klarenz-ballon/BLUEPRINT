@@ -24,7 +24,8 @@ layout=html.Div([
         [
             cm.navigationpanel,
             html.Div([modal,
-    html.H2("Update Member Status"),
+    html.H2("Update Member Status",style={"font-family": "Arial", "color": "#273250",
+        }),
     html.Div(id='mem-info',children=[
         html.Div([html.Div([html.H3('Full Name: '),
         html.H3(id='fullname',style={'font-weight':'normal'}),],className='flex half'),
