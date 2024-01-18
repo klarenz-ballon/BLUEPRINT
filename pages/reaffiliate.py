@@ -8,6 +8,7 @@ from apps import commonmodule as cm
 
 head_style = {
     "font-family": "Arial",
+    "color": "#273250",
         }
 
 
@@ -46,7 +47,7 @@ layout=html.Div([
             html.Div([html.H3("Present Address:"),dcc.Input(type='text', id='edit-presadd', required=True),],className='flex add'),
             html.Div([html.H3("Permanent Address:"),dcc.Input(type='text', id='edit-permadd', required=True)],className='flex add'),
             ],className='address'),
-        html.Div([html.Button("Submit Form",id='up-prof-btn',n_clicks=0, style={"font-family":"Arial","font-size":"medium", "font-weight":"bold"})],className='flex last')
+        html.Div([html.Button("Submit Form",id='up-prof-btn',n_clicks=0, className="choice")],className='flex last')
     ],className='edit'),
 ],className="body")
     ],className='flex container', style={"display":"flex"})

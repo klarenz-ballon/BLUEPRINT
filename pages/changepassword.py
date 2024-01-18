@@ -5,6 +5,7 @@ from dash.exceptions import PreventUpdate
 from app import app
 from apps import dbconnect as db
 from apps import commonmodule as cm
+
 modal=html.Div([
     html.Label(className='hidden modal-background',id='cp-bg'),
     html.Div([
@@ -15,6 +16,19 @@ modal=html.Div([
         html.A([html.Button("Proceed",className='enter', id='pw-btn')],href='/change-password')
     ],className='hidden modal',id='cp-main')
 ])
+
+head_style = {
+    "font-family": "Arial",
+    "color": "#273250",
+        }
+
+pass_style = {
+    "font-weight":"bold",
+    "font-family": "Arial, Helvetica, sans-serif",
+    "font-size":"0.9em",
+}
+
+
 layout=html.Div(
     [
         cm.top,
@@ -22,15 +36,16 @@ layout=html.Div(
             cm.navigationpanel,
         html.Div([
     modal,
-    html.H2("Change Password"),
+    html.H2("Change Password", style=head_style),
     html.Div([
         dcc.Store(id='cur-pass', data={}),
-        html.Label("Current Password:"), dcc.Input(type='password',id='cpw'),
-        html.Label("New Password:"), dcc.Input(type='password',id='npw'),
+        html.Label("Current Password:", style=pass_style), dcc.Input(type='password',id='cpw', placeholder="Type Current Password"),
+        html.Br(),
+        html.Label("New Password:",style=pass_style), dcc.Input(type='password',id='npw',placeholder="Type New Password"),
         html.Button("Change Password",id='change-pw',className='choice',n_clicks=0)
-    ],className='flex row')
+    ],className='flex row',)
 ],className="body")
-        ],className='flex container')
+        ],className='flex container', style={"align-items":"block"})
     ]
 )
 @app.callback(
@@ -46,13 +61,13 @@ Input('url', 'pathname'),
 )
 def update_pass(pathname,data):
     if pathname=="/change-password":
-        sql="SELECT account_password FROM user_account WHERE account_id="+data['acc']
+        sql="SELECT account_password FROM user_account WHERE user_name=""'"+data['acc']+"'"
         values=[]
         cols=['pw']
         df = db.querydatafromdatabase(sql, values, cols)
         if df.shape[0]:
-            return [{'cpw':df['pw']}]
-
+            return [{'cpw':df['pw'][0]}]
+    print("anything")
     raise PreventUpdate
 @app.callback(
     [
@@ -77,7 +92,7 @@ def update_pass(pathname,data):
 def change_pass(click,data,cur_pw,new_pw,accdata):
     if click>0:
         if data['cpw']==cur_pw:
-            sql="UPDATE user_account SET account_password=%s WHERE account_id="+accdata['acc']
+            sql="UPDATE user_account SET account_password=%s WHERE user_name=""'"+accdata['acc']+"'"
             values=[new_pw]
             db.modifydatabase(sql,values)
             return 'shown modal-background','shown modal', dash.no_update,dash.no_update,dash.no_update,dash.no_update

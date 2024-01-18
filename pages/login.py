@@ -35,11 +35,11 @@ layout=html.Div([
     [State('uname','value'),State('pword','value')]
 )
 def try_log(submit,uname,pword):
-    if submit>0:
+    if submit>0: 
                     print('This is triggered')
-                    sql="SELECT account_password FROM user_account WHERE account_id="
+                    sql="SELECT account_password FROM user_account WHERE user_name="
                     if uname:
-                        sql+=uname
+                        sql+="'"+uname+"'"
                     else:
                         sql+='0'
                     print(sql)
