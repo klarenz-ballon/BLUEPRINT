@@ -138,14 +138,14 @@ div#page-content{
     margin-left: 10%;
 }
 .choice{
-    min-width: 100px;
+    min-width: 150px;
     background-color: #3f66bd;
     color:#e6e6e6;
     border: 0;
-    border-radius: 2em;
+    border-radius: 3em;
     width: 10dvw;
-    margin: 2em;
-    padding: 2em;
+    margin: 1em;
+    padding: 0.9em;
 }
 .choice:hover{
     background-color: #4d7bdf;
