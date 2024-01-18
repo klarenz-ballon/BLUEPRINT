@@ -18,6 +18,12 @@ layout=html.Div([
     html.Div(
         [
             html.H2("Tracking List: Members"),
+             html.Div([html.H3("Reaffiliated Members"),
+            html.H4(" Current Count:",id='reaff-count'),],className='flex otherside'),
+            html.Div(id='reaffiliated-table'),
+             html.Div([html.H3("New Members"),
+            html.H4(" Current Count:",id='new-count'),],className='flex otherside'),
+            html.Div(id='new-table'),
             html.Div([html.H3("Active Members"),
             html.H4(" Current Count:",id='active-count'),],className='flex otherside'),
             html.Div(id='active-table'),
@@ -66,6 +72,26 @@ layout=html.Div([
             
         ],
         className='section'),
+        html.Div(
+        [
+            html.H2("Comittee Preferences: Reaffiliated Members"),
+            
+        ],
+        className='section'),
+        html.Div(
+        [
+            html.H2("14 White Stripes: Scores (Ranked)"),
+            html.Div(id='whitestripescore-table')
+        ],
+        className='section'),
+        html.Div(
+        [
+            html.H2("14 White Stripes: Top 14"),
+             html.Div(id='whitestripestop-table')
+            
+        ],
+        className='section'),
+
 ],className='body')
         ], className='flex container'
     )
@@ -73,6 +99,10 @@ layout=html.Div([
 
 @app.callback(
     [
+        Output('reaff-count','children'),
+        Output('reaffiliated-table','children'),
+        Output('new-count','children'),
+        Output('new-table','children'),
         Output('active-count','children'),
         Output('active-table','children'),
         Output('inactive-count','children'),
@@ -80,17 +110,77 @@ layout=html.Div([
         Output('alum-count','children'),
         Output('alum-table','children'),
         Output('by-year','children'),
-        Output('by-batch','children')
+        Output('by-batch','children'),
+        Output('whitestripescore-table','children'),
+        Output('whitestripestop-table','children'),
      ],
     [Input('url','pathname')],
     []
 )
 def generate_rep(pathname):
-    actcount=dash.no_update
-    acttab=dash.no_update
-    inactcount=dash.no_update
-    inacttab=dash.no_update
     if pathname=="/generate-report":
+        #for reaff table
+        sql="""
+            SELECT (first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name, membership_type, degree_program
+            from 
+            upciem_member join affiliation 
+            on upciem_member.affiliation_id=affiliation.affiliation_id 
+            join person 
+            on upciem_member.valid_id=person.valid_id 
+            WHERE is_new=False"""
+        values=[]
+        cols=['Full Name','Membership','Degree']
+        df=db.querydatafromdatabase(sql,values,cols)
+        reaftab=dash_table.DataTable(
+        data=df.to_dict('records'),  # Convert DataFrame to list of dictionaries
+        columns=[{'name': i, 'id': i} for i in df.columns],  # Specify column names and IDs
+        style_cell={
+            "height":"50px",
+            'text-align':'center',
+            "background-color":"#EEF2FA",
+            "color":"#273250",
+            },
+        style_header={
+            "background-color":"#000097",
+            "color":"#FFF",
+            "text-align":"center",
+            "border-bottom":"4px solid white",
+            },
+        page_action='native',
+        page_size=5 ,
+        style_table={"height":"80%",'overflow':'hidden',})
+        reafcount="Current Count:"+str(df.shape[0])
+        #for new table
+        sql="""
+            SELECT (first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name, membership_type, degree_program
+            from 
+            upciem_member join affiliation 
+            on upciem_member.affiliation_id=affiliation.affiliation_id 
+            join person 
+            on upciem_member.valid_id=person.valid_id 
+            WHERE is_new=True"""
+        values=[]
+        cols=['Full Name','Membership','Degree']
+        df=db.querydatafromdatabase(sql,values,cols)
+        newtab=dash_table.DataTable(
+        data=df.to_dict('records'),  # Convert DataFrame to list of dictionaries
+        columns=[{'name': i, 'id': i} for i in df.columns],  # Specify column names and IDs
+        style_cell={
+            "height":"50px",
+            'text-align':'center',
+            "background-color":"#EEF2FA",
+            "color":"#273250",
+            },
+        style_header={
+            "background-color":"#000097",
+            "color":"#FFF",
+            "text-align":"center",
+            "border-bottom":"4px solid white",
+            },
+        page_action='native',
+        page_size=5 ,
+        style_table={"height":"80%",'overflow':'hidden',})
+        newcount="Current Count:"+str(df.shape[0])
         #for the active table
         sql="""
             SELECT (first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name, membership_type, degree_program
@@ -216,8 +306,8 @@ def generate_rep(pathname):
             page_size=5 ,
             style_table={"height":"80%",'overflow':'hidden',})
             yeartab+=[temp_year]
-            #for app-batch
-            sql="SELECT DISTINCT app_batch FROM affiliation WHERE True"
+        #for app-batch
+        sql="SELECT DISTINCT app_batch FROM affiliation WHERE True"
         values=[]
         cols=['ab']
         df=db.querydatafromdatabase(sql,values,cols)
@@ -256,7 +346,66 @@ def generate_rep(pathname):
             page_size=5 ,
             style_table={"height":"80%",'overflow':'hidden',})
             batchtab+=[temp_batch]
-        print(batchtab)
-        return [actcount,acttab,inactcount,inacttab,alumcount,alumtab,yeartab,batchtab]
+        #for 14 whites
+        sql="""
+            SELECT (first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name, membership_type, degree_program,gwa::numeric(10,2)
+            from 
+            upciem_member join affiliation 
+            on upciem_member.affiliation_id=affiliation.affiliation_id 
+            join person 
+            on upciem_member.valid_id=person.valid_id 
+            WHERE True ORDER BY gwa ASC"""#edit this by changing the order you can use formula or something
+        values=[]
+        cols=['Full Name','Membership','Degree','GWA']
+        df=db.querydatafromdatabase(sql,values,cols)
+        whitetab=dash_table.DataTable(
+        data=df.to_dict('records'),  # Convert DataFrame to list of dictionaries
+        columns=[{'name': i, 'id': i} for i in df.columns],  # Specify column names and IDs
+        style_cell={
+            "height":"50px",
+            'text-align':'center',
+            "background-color":"#EEF2FA",
+            "color":"#273250",
+            },
+        style_header={
+            "background-color":"#000097",
+            "color":"#FFF",
+            "text-align":"center",
+            "border-bottom":"4px solid white",
+            },
+        page_action='native',
+        page_size=5 ,
+        style_table={"height":"80%",'overflow':'hidden',})
+        #for top 14
+        sql="""
+            SELECT (first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name, membership_type, degree_program,gwa::numeric(10,2)
+            from 
+            upciem_member join affiliation 
+            on upciem_member.affiliation_id=affiliation.affiliation_id 
+            join person 
+            on upciem_member.valid_id=person.valid_id 
+            WHERE True ORDER BY gwa ASC LIMIT 14;"""#edit this by changing the order you can use formula or something
+        values=[]
+        cols=['Full Name','Membership','Degree','GWA']
+        df=db.querydatafromdatabase(sql,values,cols)
+        whitetoptab=dash_table.DataTable(
+        data=df.to_dict('records'),  # Convert DataFrame to list of dictionaries
+        columns=[{'name': i, 'id': i} for i in df.columns],  # Specify column names and IDs
+        style_cell={
+            "height":"50px",
+            'text-align':'center',
+            "background-color":"#EEF2FA",
+            "color":"#273250",
+            },
+        style_header={
+            "background-color":"#000097",
+            "color":"#FFF",
+            "text-align":"center",
+            "border-bottom":"4px solid white",
+            },
+        page_action='native',
+        page_size=14,
+        style_table={"height":"80%",'overflow':'hidden',})
+        return [reafcount,reaftab,newcount,newtab,actcount,acttab,inactcount,inacttab,alumcount,alumtab,yeartab,batchtab,whitetab,whitetoptab]
 
     raise PreventUpdate
