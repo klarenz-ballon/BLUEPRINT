@@ -59,16 +59,17 @@ Input('filtersearch','value'),
 )
 def members(pathname,namesearch,filterdd,filtersearch):
     if pathname=="/members":
-        sql="""
-        SELECT member_id,(first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name,birthdate,membership_type,app_batch,year_standing,degree_program,other_org_affiliation,email,present_address
-        from PERSON join upciem_member 
-        ON person.valid_id=upciem_member.valid_id
-        WHERE True
+        sql="""	SELECT CONCAT(first_name, ' ',middle_name,' ' ,last_name, ' ', suffix) as full_name,birthdate,membership_type,app_batch,year_standing,degree_program,other_org_affiliation,email,present_address
+FROM 
+person JOIN upciem_member 
+ON person.valid_id=upciem_member.valid_id JOIN affiliation 
+ON person.valid_id=affiliation.valid_id 
+WHERE True
             """
         values=[]
-        cols=["Member ID","Name","Birthday","Membership","App Batch","Year Standing","Degree Program","Other Orgs","Email","Present Address"]
+        cols=["Name","Birthday","Membership","App Batch","Year Standing","Degree Program","Other Orgs","Email","Present Address"]
         if namesearch:
-            sql+="""AND (first_name||' '||middle_name||' '||last_name||' '||suffix) ILIKE %s"""
+            sql+="""AND CONCAT(first_name, ' ',middle_name,' ' ,last_name, ' ', suffix) ILIKE %s"""
             values+={f"%{namesearch}%"}
         if filterdd:
             if filtersearch:
@@ -100,7 +101,7 @@ def members(pathname,namesearch,filterdd,filtersearch):
             },
         page_action='native',
         page_size=10,
-        style_table={"height":"80%",'overflow':'hidden'}
+        style_table={"height":"80%",'overflow':'auto'}
 )
         return [table]
     else:
