@@ -98,7 +98,7 @@ layout=html.Div([
 ],
 )
 def reaff_member(btn,fname,mname,lname,sfx,bday,cn,ecn,email,vid,presadd,permadd,deg,ys,rtype,btc,gwa,ranks,fee):
-    if btn>0 :
+    if btn>0:
         #check if there is existing data
         commpref=[None,None,None,None,None,None]
         print("checking")
