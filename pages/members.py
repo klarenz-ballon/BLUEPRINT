@@ -15,23 +15,26 @@ layout=html.Div(
     html.Label(className='hidden modal-background',id='modal-background'),
     html.Div([
         html.Div(
-            [html.H3("Action Done")],className='modal-header'
+            [html.H3("Action Done",style={"font-family": "Arial"})],className='modal-header'
         ),
         html.P("Said Action is Made",id='up-mem-done'),
         html.A([html.Button("Back to List",className='enter')],href='/update-member')
     ],className='hidden modal',id='main-modal')
 ]),
-    html.H2("Members"),
+    html.H2("Members",style={"font-family": "Arial", "color": "#273250",
+        }),
     html.Div([
-        html.Div([html.H5("Search Name"),
+        html.Div([html.H5("Search Name", style={"font-family": "Arial"
+        }),
         dcc.Input(
             type='text',
             className='searchbar',
             id='namesearch'
         )],className='flex half'),
         html.Div([
-        html.H5("Filter by:"),
-        dcc.Dropdown(['Member Type','Year Standing','App Batch','Accountabilities'], id='filterdd',searchable=False,className='dropdown'),
+        html.H5("Filter by:",style={"font-family": "Arial"
+        }),
+        dcc.Dropdown(['Member Type','Year Standing','App Batch','Accountabilities'], id='filterdd',searchable=False,className='dropdown', style={"font-family": "Arial","font-size":"small"}),
         dcc.Input(
             type='text',
             className='searchbar',

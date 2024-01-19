@@ -12,7 +12,7 @@ modal=html.Div([
     html.Label(className='hidden modal-background',id='modal-background'),
     html.Div([
         html.Div(
-            [html.H3("Action Done")],className='modal-header'
+            [html.H3("Action Done",style={"font-family": "Arial"})],className='modal-header'
         ),
         html.P("Said Action is Made",id='up-mem-done'),
         html.A([html.Button("Back to List",className='enter')],href='/update-member')
@@ -24,13 +24,14 @@ layout=html.Div([
         [
             cm.navigationpanel,
             html.Div([modal,
-    html.H2("Update Member Status"),
+    html.H2("Update Member Status",style={"font-family": "Arial", "color": "#273250",
+        }),
     html.Div(id='mem-info',children=[
-        html.Div([html.Div([html.H3('Full Name: '),
+        html.Div([html.Div([html.H3('Full Name: ',style={"font-family": "Arial"}),
         html.H3(id='fullname',style={'font-weight':'normal'}),],className='flex half'),
-        html.Div([html.H3('ID: '),
+        html.Div([html.H3('ID: ',style={"font-family": "Arial"}),
         html.H3(id='mem-id-up',style={'font-weight':'normal'}),],className='flex half'),
-        html.Div([html.H3('Membership Status: '),
+        html.Div([html.H3('Membership Status: ',style={"font-family": "Arial"}),
         html.H3(id='up-mem-status',style={'font-weight':'normal'}),],className='flex half')],className='flex')
     ]),
     html.Div([html.Button(['Transfer to Alumni'],id='trans-alum-btn',n_clicks=0,className='choice'),html.Button('Reaffiliate',id='up-ref-btn',n_clicks=0,className='choice'),html.Button('Update to Regular',id='up-stat-btn',n_clicks=0,className='choice'),html.A([html.Button('Back to List',className='choice')],href='/update-member'),])
@@ -60,12 +61,12 @@ def members(pathname,search):
         parsed=urllib.parse.parse_qs(search)
         if pathname=="/update-member-modify":
             sql="""
-            SELECT member_id,(first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name,membership_type
+            SELECT CONCAT(first_name||' '||middle_name||' '||last_name||' '||suffix) as full_name,membership_type
             from PERSON join upciem_member 
             ON person.valid_id=upciem_member.valid_id
             WHERE True AND
                 """
-            sql+="member_id='"+parsed['id'][0]+"'"
+            sql+="valid_id='"+parsed['id'][0]+"'"
             print(sql)
             values=[]
             cols=["Member ID","Name","Membership"]
@@ -107,14 +108,14 @@ def show_modal(ref,alum,stat,ref_val,trans_val,stat_val,search):
     act=dash.no_update
     if ref>0:
         act=ref_val
-        sql="UPDATE upciem_member SET membership_type=%s WHERE member_id=%s"
+        sql="UPDATE upciem_member SET membership_type=%s WHERE valid_id=%s"
         values=['Reaffiliated' if 'Reaffiliate' in ref_val else 'Unaffilated',parsed['id'][0]]
         db.modifydatabase(sql,values)
     elif alum>0:
         act=trans_val
     elif stat>0:
         act=stat_val
-        sql="UPDATE upciem_member SET membership_type=%s WHERE member_id=%s"
+        sql="UPDATE upciem_member SET membership_type=%s WHERE valid_id=%s"
         values=['Probationary' if 'Probationary' in stat_val else 'Regular',parsed['id'][0]]
         db.modifydatabase(sql,values)
     else:

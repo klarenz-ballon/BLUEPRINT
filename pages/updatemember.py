@@ -13,8 +13,10 @@ layout=html.Div(
         html.Div([
             cm.navigationpanel,
             html.Div([
-    html.H2("Update Members"),
-        html.Div([html.H5("Search Name"),
+    html.H2("Update Members",style={"font-family": "Arial", "color": "#273250",
+        }),
+        html.Div([html.H5("Search Name",style={"font-family": "Arial",
+        }),
         dcc.Input(
             type='text',
             className='searchbar',
