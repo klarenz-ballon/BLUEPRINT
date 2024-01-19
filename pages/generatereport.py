@@ -8,6 +8,14 @@ import plotly.express as px
 from app import app
 from apps import dbconnect as db
 from apps import commonmodule as cm
+
+all={
+    "font-family": "Arial",
+    "color": "#273250",
+}
+
+
+
 layout=html.Div([
     cm.top,
     html.Div(
@@ -17,76 +25,76 @@ layout=html.Div([
     html.H2("Reports for AY 2022-2023", style={"font-family": "Arial", "color": "#273250"}),
     html.Div(
         [
-            html.H2("Tracking List: Members"),
-             html.Div([html.H3("Reaffiliated Members"),
-            html.H4(" Current Count:",id='reaff-count'),],className='flex otherside'),
+            html.H2("Tracking List: Members",style=all),
+             html.Div([html.H3("Reaffiliated Members",style=all),
+            html.H4(" Current Count:",style=all,id='reaff-count'),],className='flex otherside'),
             html.Div(id='reaffiliated-table'),
-             html.Div([html.H3("New Members"),
-            html.H4(" Current Count:",id='new-count'),],className='flex otherside'),
+             html.Div([html.H3("New Members",style=all),
+            html.H4(" Current Count:",style=all,id='new-count'),],className='flex otherside'),
             html.Div(id='new-table'),
-            html.Div([html.H3("Active Members"),
-            html.H4(" Current Count:",id='active-count'),],className='flex otherside'),
+            html.Div([html.H3("Active Members",style=all),
+            html.H4(" Current Count:",style=all,id='active-count'),],className='flex otherside'),
             html.Div(id='active-table'),
-            html.Div([html.H3("Inactive Members"),
-            html.H4(" Current Count:",id='inactive-count'),],className='flex otherside'),
+            html.Div([html.H3("Inactive Members",style=all),
+            html.H4(" Current Count:",style=all,id='inactive-count'),],className='flex otherside'),
             html.Div(id='inactive-table'),
-            html.Div([html.H3("Alumni"),
-            html.H4(" Current Count:",id='alum-count'),],className='flex otherside'),
+            html.Div([html.H3("Alumni",style=all),
+            html.H4(" Current Count:",style=all,id='alum-count'),],className='flex otherside'),
             html.Div(id='alum-table'),
         ],
         className='section'),
         html.Div(
         [
-            html.H2("Tracking List: Headships"),
+            html.H2("Tracking List: Headships",style=all),
             
         ],
         className='section'),
         html.Div(
         [
-            html.H2("Tracking List: Alumni Specialization"),
+            html.H2("Tracking List: Alumni Specialization",style=all),
             
         ],
         className='section'),
         html.Div(
         [
-            html.H2("Tracking List: Committee"),
+            html.H2("Tracking List: Committee",style=all),
             
         ],
         className='section'),
         html.Div(
         [
-            html.H2("Tracking List: Year Standing"),
+            html.H2("Tracking List: Year Standing",style=all),
             html.Div(id='by-year')
         ],
         className='section'),
         html.Div(
         [
-            html.H2("Tracking List: App Batch"),
+            html.H2("Tracking List: App Batch",style=all),
             html.Div(id='by-batch')
             
         ],
         className='section'),
         html.Div(
         [
-            html.H2("Tracking List: Accountabilities"),
+            html.H2("Tracking List: Accountabilities",style=all),
             
         ],
         className='section'),
         html.Div(
         [
-            html.H2("Comittee Preferences: Reaffiliated Members"),
+            html.H2("Comittee Preferences: Reaffiliated Members",style=all),
             
         ],
         className='section'),
         html.Div(
         [
-            html.H2("14 White Stripes: Scores (Ranked)"),
+            html.H2("14 White Stripes: Scores (Ranked)",style=all),
             html.Div(id='whitestripescore-table')
         ],
         className='section'),
         html.Div(
         [
-            html.H2("14 White Stripes: Top 14"),
+            html.H2("14 White Stripes: Top 14",style=all),
              html.Div(id='whitestripestop-table')
             
         ],
@@ -127,7 +135,7 @@ def generate_rep(pathname):
             on upciem_member.affiliation_id=affiliation.affiliation_id 
             join person 
             on upciem_member.valid_id=person.valid_id 
-            WHERE is_new=False"""
+            WHERE upciem_member_delete is NULL or upciem_member_delete=False and is_new=False"""
         values=[]
         cols=['Full Name','Membership','Degree']
         df=db.querydatafromdatabase(sql,values,cols)
@@ -158,7 +166,7 @@ def generate_rep(pathname):
             on upciem_member.affiliation_id=affiliation.affiliation_id 
             join person 
             on upciem_member.valid_id=person.valid_id 
-            WHERE is_new=True"""
+            WHERE upciem_member_delete is NULL or upciem_member_delete=False and is_new=True"""
         values=[]
         cols=['Full Name','Membership','Degree']
         df=db.querydatafromdatabase(sql,values,cols)
@@ -189,7 +197,7 @@ def generate_rep(pathname):
             on upciem_member.affiliation_id=affiliation.affiliation_id 
             join person 
             on upciem_member.valid_id=person.valid_id 
-            WHERE active_status='Active'"""
+            WHERE upciem_member_delete is NULL or upciem_member_delete=False and active_status='Active'"""
         values=[]
         cols=['Full Name','Membership','Degree']
         df=db.querydatafromdatabase(sql,values,cols)
@@ -220,7 +228,7 @@ def generate_rep(pathname):
             on upciem_member.affiliation_id=affiliation.affiliation_id 
             join person 
             on upciem_member.valid_id=person.valid_id 
-            WHERE active_status='Inactive'"""
+            WHERE upciem_member_delete is NULL or upciem_member_delete=False and active_status='Inactive'"""
         values=[]
         cols=['Full Name','Membership','Degree']
         df=db.querydatafromdatabase(sql,values,cols)
@@ -275,7 +283,7 @@ def generate_rep(pathname):
         yeartab=[]
         for year in df['ys']:
             yearstring="YEAR "+str(year)
-            yeartab+=[html.H4(yearstring)]
+            yeartab+=[html.H4(yearstring,style=all)]
             sql="""
             SELECT CONCAT(first_name, ' ',middle_name,' ' ,last_name, ' ', suffix) as full_name, membership_type, degree_program
             from 
@@ -283,7 +291,7 @@ def generate_rep(pathname):
             on upciem_member.affiliation_id=affiliation.affiliation_id 
             join person 
             on upciem_member.valid_id=person.valid_id 
-            WHERE year_standing="""
+            WHERE upciem_member_delete is NULL or upciem_member_delete=False and year_standing="""
             sql+=str(year)
             cols=['Full Name','Membership','Degree']
             df=db.querydatafromdatabase(sql,[],cols)
@@ -314,7 +322,7 @@ def generate_rep(pathname):
         batchtab=[]
         for batch in df['ab']:
             batchstr="Batch"+str(batch)
-            batchtab+=[html.H4(batchstr)]
+            batchtab+=[html.H4(batchstr,style=all)]
             sql="""
             SELECT CONCAT(first_name, ' ',middle_name,' ' ,last_name, ' ', suffix) as full_name, membership_type, degree_program
             from 
@@ -322,7 +330,7 @@ def generate_rep(pathname):
             on upciem_member.affiliation_id=affiliation.affiliation_id 
             join person 
             on upciem_member.valid_id=person.valid_id 
-            WHERE app_batch=%s"""
+            WHERE upciem_member_delete is NULL or upciem_member_delete=False and app_batch=%s"""
             values=[]
             values+={f"{batch}"}
             cols=['Full Name','Membership','Degree']
@@ -354,7 +362,7 @@ def generate_rep(pathname):
             on upciem_member.affiliation_id=affiliation.affiliation_id 
             join person 
             on upciem_member.valid_id=person.valid_id 
-            WHERE True ORDER BY gwa ASC"""#edit this by changing the order you can use formula or something
+            WHERE upciem_member_delete is NULL or upciem_member_delete=False ORDER BY gwa ASC"""#edit this by changing the order you can use formula or something
         values=[]
         cols=['Full Name','Membership','Degree','GWA']
         df=db.querydatafromdatabase(sql,values,cols)
@@ -384,7 +392,7 @@ def generate_rep(pathname):
             on upciem_member.affiliation_id=affiliation.affiliation_id 
             join person 
             on upciem_member.valid_id=person.valid_id 
-            WHERE True ORDER BY gwa ASC LIMIT 14;"""#edit this by changing the order you can use formula or something
+            WHERE upciem_member_delete is NULL or upciem_member_delete=False ORDER BY gwa ASC LIMIT 14;"""#edit this by changing the order you can use formula or something
         values=[]
         cols=['Full Name','Membership','Degree','GWA']
         df=db.querydatafromdatabase(sql,values,cols)

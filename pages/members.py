@@ -67,7 +67,7 @@ def members(pathname,namesearch,filterdd,filtersearch):
             person JOIN upciem_member 
             ON person.valid_id=upciem_member.valid_id JOIN affiliation 
             ON person.valid_id=affiliation.valid_id 
-            WHERE True
+            WHERE upciem_member_delete is NULL or upciem_member_delete=False
             """
         values=[]
         cols=["Name","Birthday","Membership","App Batch","Year Standing","Degree Program","Other Orgs","Email","Present Address"]
